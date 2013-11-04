@@ -1,0 +1,9 @@
+FirmwareVersion: 1.0.4
+MIDlet-1: ConsolidatedMicromed,,com.numerex.tc65i.micromed.StartUp
+MIDlet-Jar-Size: 128709
+MIDlet-Jar-URL: ConsolidatedMicromed.jar
+MIDlet-Name: ConsolidatedMicromed Midlet Suite
+MIDlet-Vendor: Midlet Suite Vendor
+MIDlet-Version: 1.0.3
+MicroEdition-Configuration: CLDC-1.1
+MicroEdition-Profile: IMP-NG
