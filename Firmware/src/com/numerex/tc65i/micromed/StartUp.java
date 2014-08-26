@@ -8,6 +8,7 @@ import javax.microedition.midlet.MIDlet;
 import javax.microedition.midlet.MIDletStateChangeException;
 
 import com.numerex.tc65i.utilities.DiagnosticsThread;
+import com.numerex.tc65i.utilities.GetRandomizedSequenceId;
 import com.numerex.tc65i.utilities.OTAMessage.OTAMessageIntf;
 import com.numerex.tc65i.utilities.OTAMessage.OTAMessageMO;
 import com.numerex.tc65i.utilities.OTAMessage.OTAMessageMOE;
@@ -30,8 +31,9 @@ public class StartUp extends MIDlet {
 	//TODO:  read this data from the SIM card.
 	private int DEFAULT_PORT_UDP = 9010;
 	private int DEFAULT_PORT_TCP = 9011;
+//	private String DEFAULT_APN = "nmrx10.com.attz"; /*"eagle01";*/ 
 	private String DEFAULT_APN = "numerex.cxn"; /*"eagle01";*/ 
-	private String DEFAULT_SERVER_IP = "12.71.216.53"; //"192.168.11.53";
+	private String DEFAULT_SERVER_IP = "172.29.12.254"; //"12.71.216.53"; //"192.168.11.53";
 	private String DEFAULT_USER = "";
 	private String DEFAULT_PASS = "";
 	
@@ -46,7 +48,7 @@ public class StartUp extends MIDlet {
   	public StartUp() throws Exception {
 	    try {
 	    	System.out.println("\r\n\r\n\r\n\r\n*******");
-	    	System.out.println("startUp version <" + DiagnosticsThread.getVersion() + ">");
+	    	System.out.println("StartUp Version <" + DiagnosticsThread.getVersion() + ">");
 	    	System.out.println("*******");
 	    } catch (Exception e) {
 	        System.out.println(e);
@@ -215,7 +217,8 @@ public class StartUp extends MIDlet {
 			String imei = null;
 			String iccid = null;
 			
-			msg.setSeqId(1);
+			//msg.setSeqId(1);
+			msg.setSeqId(GetRandomizedSequenceId.getInstance().getOne());
 			//add imei
 			imei = DiagnosticsThread.getIMEI();
 			if (imei != null && imei.length() > 0) {
@@ -351,6 +354,7 @@ public class StartUp extends MIDlet {
     	DiagnosticsThread.checkFileSystem();
     	DiagnosticsThread.checkFreeMemory();
     	DiagnosticsThread.checkGSM();
+    	DiagnosticsThread.checkSIM();
     	DiagnosticsThread.validateGSM();
     	//DiagnosticsThread.getAirplaneMode();
     	DiagnosticsThread.checkRSSI();
@@ -442,14 +446,14 @@ public class StartUp extends MIDlet {
 	
 	private synchronized void handleSerialMessages() throws Exception {
 		try {
-	    		System.out.println("----------------------------------------	serial queue size=<" + serialQueue.size() + ">");
+//	    		System.out.println("----------------------------------------	serial queue size=<" + serialQueue.size() + ">");
 			
 			
 			if (serialQueue.size() > 0) {
-			  	System.out.println("\r\n-----------------------------------------");
-		    	System.out.println("handleSerialMessages start,");
-		    	System.out.println("	queue size=<" + serialQueue.size() + ">");
-		    	System.out.println("-----------------------------------------");
+//			  	System.out.println("\r\n-----------------------------------------");
+//		    	System.out.println("handleSerialMessages start,");
+//		    	System.out.println("	queue size=<" + serialQueue.size() + ">");
+//		    	System.out.println("-----------------------------------------");
 			}
 
 //			System.out.println("Detected airplane mode <" + (serialQueue.getAirplaneMode() == true? "ON" : "OFF") + ">");
@@ -561,7 +565,8 @@ public class StartUp extends MIDlet {
 				String imei = null;
 				String iccid = null;
 				
-				msg.setSeqId(1);
+				msg.setSeqId(GetRandomizedSequenceId.getInstance().getOne());
+				//msg.setSeqId(1);
 				
 				//add imei
 				imei = DiagnosticsThread.getIMEI();

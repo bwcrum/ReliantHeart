@@ -1,5 +1,6 @@
 package com.numerex.tc65i.utilities.network.servers;
 
+
 import javax.microedition.io.Connector;
 import javax.microedition.io.Datagram;
 import javax.microedition.io.UDPDatagramConnection;
@@ -13,8 +14,10 @@ public class UDPSocketServer extends Thread {
 	public boolean isReady = false;
 	
 	public UDPSocketServer(String APN, int port, String username, String password) {
-		serverConnectionProfileString = "datagram://:" + port + ";bearer_type=gprs;access_point=numerex.cxn;timeout=6000";
+//		serverConnectionProfileString = "datagram://:" + port + ";bearer_type=gprs;access_point=nmrx10.com.attz;timeout=6000";
+//		serverConnectionProfileString = "datagram://:" + port + ";bearer_type=gprs;access_point=numerex.cxn;timeout=6000";
 //		serverConnectionProfileString = "datagram://:" + port + ";bearer_type=gprs;access_point=" + APN + ";username=" + username + ";password=" + password +";timeout=6000";
+		serverConnectionProfileString = "datagram://:" + port + ";bearer_type=gprs;access_point=" + APN + ";timeout=6000";
 //		serverConnectionProfileString = "datagram://:" + port + ";bearer_type=gprs;access_point=" + "nmrx.intl.apn" + ";timeout=6000";
 //		serverConnectionProfileString = "datagram://:" + port + ";bearer_type=gprs;access_point=arkessa.com;username=arkessa;password=arkessa;timeout=6000";
 	}
@@ -27,25 +30,25 @@ public class UDPSocketServer extends Thread {
 				Thread.yield();
 
 				if (DiagnosticsThread.checkGSM() == false) {
-					System.out.println("UDPSocketServer run GSM ATTACH not ready");
+//					System.out.println("UDPSocketServer run GSM ATTACH not ready");
 					DiagnosticsThread.validateGSM();
 					Thread.sleep(5000);
 					continue;
 				}
 
 				if (udpDatagramConnection == null || isReady == false) {
-					System.out.println("UDPSocketServer udpDatagramConnection open connection");
-					System.out.println("UDPSocketServer serverConnectionProfileString=<" + serverConnectionProfileString + ">");
+//					System.out.println("UDPSocketServer udpDatagramConnection open connection");
+//					System.out.println("UDPSocketServer serverConnectionProfileString=<" + serverConnectionProfileString + ">");
 					udpDatagramConnection = (UDPDatagramConnection)Connector.open(serverConnectionProfileString);
 					isReady = true;
 				}
 				
 				Datagram datagram = udpDatagramConnection.newDatagram(udpDatagramConnection.getMaximumLength());
-				System.out.println("UDPSocketServer udpDatagramConnection block recv");
+//				System.out.println("UDPSocketServer udpDatagramConnection block recv");
 				udpDatagramConnection.receive(datagram);
 				
 				if (datagram != null && datagram.getLength() > 0) {
-					System.out.println("UDPSocketServer udpDatagramConnection payload recv");
+//					System.out.println("UDPSocketServer udpDatagramConnection payload recv");
 					int datagramLength = datagram.getLength();
 					byte[] datagramPayload = datagram.getData();
 					
@@ -62,10 +65,10 @@ public class UDPSocketServer extends Thread {
 						if (j > 0 && j != (payload.length - 1) && j % 15 == 0) payloadHexString += "\r\n";
 					}
 					payloadHexString = payloadHexString + "\r\n}";
-					System.out.println("UDPSocketServer udpDatagramConnection recv length=<" + payload.length + ">, payload=<" + payloadHexString + ">");
+//					System.out.println("UDPSocketServer udpDatagramConnection recv length=<" + payload.length + ">, payload=<" + payloadHexString + ">");
 					MTMessagingQueue.getInstance().add(payload);
 				} else {
-					System.out.println("UDPSocketServer udpDatagramConnection recv[0]");
+//					System.out.println("UDPSocketServer udpDatagramConnection recv[0]");
 				}
 			} catch (Exception e) {
 				System.out.println(e);
